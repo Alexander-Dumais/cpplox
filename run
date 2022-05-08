@@ -1,0 +1,2 @@
+g++ lox.cpp -o bin/cpplox
+./bin/cpplox input/intro_to_lox.cpplox
