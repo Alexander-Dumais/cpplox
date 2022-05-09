@@ -1,2 +1,65 @@
-g++ lox.cpp -o bin/cpplox
-./bin/cpplox input/intro_to_lox.cpplox
+#!/bin/bash
+
+#cpplox run script
+#Alexander Dumais
+
+printf "Running in $PWD \n\n"
+CYAN='\033[0;36m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+build_lox() {
+    printf "${CYAN}Building lox${NC}\n"
+
+    #echo on inside subshell
+    (set -x; 
+    g++ lox.cpp -o bin/cpplox)
+    
+    printf "\n\n"
+}
+
+run_lox() {
+    FILE=$1
+    printf "${CYAN}Running lox with input file${NC}\n"
+    
+    #echo on inside subshell
+    (set -x; 
+    ./bin/cpplox $FILE)
+
+    printf "\n\n"
+}
+
+#Only exactly 2 arguments (-f <file-path>) or no arguments are accepted (runs lox interpreter)
+if [[ $# -gt 2 ]]; then
+    printf "${RED}Illegal number of arguments${NC}\n" >&2
+    printf "./run usage: \n"
+    printf "\t-f <file-path>\t#run lox with a file\n"
+    printf "\t<no-args>\t#run lox interpreter\n"
+    exit 2
+fi
+
+#If no arguments, run the lox interpreter
+if [[ $# -eq 0 ]]; then
+    printf "${CYAN}Running Lox Interpreter${NC}\n"
+    printf "${RED}TODO: Implement Lox Interpreter${NC}\n" >&2
+    exit 2
+    exit 1 #delete exit 2 once interpreter is implemented
+fi
+
+#Run the lox interpreter with an input file
+if [[ "$1" == "-f" ]]; then
+
+    #If filename not given, default is put input/intro_to_lox.cpplox
+    NAME=$2
+    INPUTFILE=${NAME:-"input/intro_to_lox.cpplox"}
+
+    build_lox
+    run_lox $INPUTFILE >&1 >&2
+    exit 1
+else
+    printf "${RED}Illegal flag $1 ${NC}\n" >&2
+	printf "./run usage: \n"
+    printf "\t-f <file-path>\t#run lox with a file\n"
+    printf "\t<no-args>\t#run lox interpreter\n"
+    exit 2
+fi
