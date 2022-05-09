@@ -1,1 +1,4 @@
-print("Example 2")
+var a = 123;
+var b = 456;
+
+var c = a + b;

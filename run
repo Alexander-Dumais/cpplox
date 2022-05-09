@@ -41,8 +41,10 @@ fi
 #If no arguments, run the lox interpreter
 if [[ $# -eq 0 ]]; then
     printf "${CYAN}Running Lox Interpreter${NC}\n"
-    printf "${RED}TODO: Implement Lox Interpreter${NC}\n" >&2
-    exit 2
+    #printf "${RED}TODO: Implement Lox Interpreter${NC}\n" >&2
+    #exit 2
+    build_lox
+    run_lox >&1 >&2
     exit 1 #delete exit 2 once interpreter is implemented
 fi
 
