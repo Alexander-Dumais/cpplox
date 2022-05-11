@@ -4,16 +4,30 @@
 
 #include "run.h"
 #include "debug.h"
+#include "token.h"
 
 using namespace std;
 
-void run(string source) {
-    
+/**
+ * @brief Scan the source, tokenize the source, then run the source
+ * 
+ * @param source A line of Lox source code
+ */
+void run(string source)
+{
+    // Java equivalent
+    // Scanner scanner = new Scanner(source);
+    // List<Token> tokens = scanner.scanTokens();
+
+    // // For now, just print the tokens.
+    // for (Token token : tokens) {
+    //   System.out.println(token);
+    // }
 }
 
 /**
  * @brief interpret an input file
- * 
+ *
  * @param filename the name of the input file
  */
 void runFile(char *filename)
@@ -42,14 +56,15 @@ void runFile(char *filename)
 
 /**
  * @brief interpret each prompt from a user or input stream
- * 
+ *
  */
 void runPrompt()
 {
     string line;
-    while(getline(std::cin, line)) {
+    while (getline(std::cin, line))
+    {
         DEBUG(line);
-        //run(line);
+        // run(line);
     }
 
     DEBUG("TODO: Implement runPrompt()");
