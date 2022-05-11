@@ -5,8 +5,22 @@
 #include "run.h"
 #include "debug.h"
 #include "token.h"
+#include <assert.h>
 
 using namespace std;
+
+//TODO: Add error handling here
+//   static void error(int line, String message) {
+//     report(line, "", message);
+//   }
+
+//   private static void report(int line, String where,
+//                              String message) {
+//     System.err.println(
+//         "[line " + line + "] Error" + where + ": " + message);
+//     hadError = true;
+//   }
+
 
 /**
  * @brief Scan the source, tokenize the source, then run the source
@@ -23,6 +37,9 @@ void run(string source)
     // for (Token token : tokens) {
     //   System.out.println(token);
     // }
+
+    Tok::Token t;
+    cout << "In run()" << endl;
 }
 
 /**
@@ -42,7 +59,7 @@ void runFile(char *filename)
         while (getline(file, line))
         {
             DEBUG(line);
-            // run(line);
+            run(line);
         }
         file.close();
     }

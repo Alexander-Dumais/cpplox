@@ -3,8 +3,6 @@
 
 #include "debug.h"
 
-#define DEBUG_ON 1
-
 using namespace std;
 
 void println(string s)

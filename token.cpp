@@ -3,91 +3,24 @@
 #include <vector>
 #include <assert.h>
 
-const std::vector<std::string> tokenTypes = {
-    "LEFT_PAREN",
-    "RIGHT_PAREN",
-    "LEFT_BRACE",
-    "RIGHT_BRACE",
-    "COMMA",
-    "DOT",
-    "MINUS",
-    "PLUS",
-    "SEMICOLON",
-    "SLASH",
-    "STAR",
-    "BANG",
-    "BANG_EQUAL",
-    "EQUAL",
-    "EQUAL_EQUAL",
-    "GREATER",
-    "GREATER_EQUAL",
-    "LESS",
-    "LESS_EQUAL",
-    "IDENTIFIER",
-    "STRING",
-    "NUMBER",
-    "AND",
-    "CLASS",
-    "ELSE",
-    "FALSE",
-    "FUN",
-    "FOR",
-    "IF",
-    "NIL",
-    "OR",
-    "PRINT",
-    "RETURN",
-    "SUPER",
-    "THIS",
-    "TRUE",
-    "VAR",
-    "WHILE",
-    "EOF_LOX" //39 tokens
-};
+#include "token.h"
 
-enum TokenType {
-    // Single-character tokens.
-    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-    COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+namespace Tok {
 
-    // One or two character tokens.
-    BANG, BANG_EQUAL,
-    EQUAL, EQUAL_EQUAL,
-    GREATER, GREATER_EQUAL,
-    LESS, LESS_EQUAL,
-
-    // Literals.
-    IDENTIFIER, STRING, NUMBER,
-
-    // Keywords.
-    AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-    PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
-
-    EOF_LOX
-};
-
-class Token {
-public:
-    TokenType type; 
-    std::string lexeme;
-    void* literal;
-    int line;
-
-    Token() {
-        //assert(tokenTypes.size() != (int)TokenType(EOF_LOX)); //If this fails, it means the number of tokens does not match the number of TokenTypes
+    Token::Token() {
+        assert(("number of tokens does not match the number of TokenTypes", tokenTypes.size() == (int)TokenType(EOF_LOX) + 1));
         std::cout << "Created tmpty Token" << std::endl;
     }
 
-    Token(TokenType type, std::string lexeme, void* literal, int line) 
+    Token::Token(TokenType type, std::string lexeme, void* literal, int line) 
         : type(type), lexeme(lexeme), literal(literal), line(line)
     {
-        assert(tokenTypes.size() == 39);
-
+        assert(("number of tokens does not match the number of TokenTypes", tokenTypes.size() == (int)TokenType(EOF_LOX) + 1));
+        std::cout << "Created Token with non-empty constructor" << std::endl;
     }
 
-    std::string toString() const {
-        //return type + " " + lexeme + " " + literal;
+    std::string Token::toString() const {
         return tokenTypes[type] + lexeme + std::string((const char*)literal);
     }
 
-};
+}
