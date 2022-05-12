@@ -8,7 +8,7 @@
         "name": "g++ build and debug active file",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${fileDirname}/bin/cpplox",
+        "program": "${workspaceFolder}/bin/cpplox_vscode",
         "args": ["-f"],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",

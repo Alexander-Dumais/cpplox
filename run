@@ -13,7 +13,7 @@ build_lox() {
 
     #echo on inside subshell
     (set -x; 
-    g++ lox.cpp run.cpp debug.cpp token.cpp -o bin/cpplox)
+    g++ -o bin/cpplox -I./include/ src/*.cpp)
     
     printf "\n\n"
 }

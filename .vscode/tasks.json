@@ -6,10 +6,12 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
+                "-I",
+                "${workspaceFolder}/include/",
                 "-g",
-                "${fileDirname}/*.cpp",
+                "${workspaceFolder}/src/*.cpp",
                 "-o",
-                "${fileDirname}/bin/cpplox"
+                "${workspaceFolder}/bin/cpplox_vscode"
             ],
             "options": {
                 "cwd": "${fileDirname}"
