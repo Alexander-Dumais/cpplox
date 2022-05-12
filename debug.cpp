@@ -10,10 +10,10 @@ void println(string s)
     cout << s << endl;
 }
 
-void DEBUG(string s)
+void DEBUG(string message, string s)
 {
     if (DEBUG_ON)
     {
-        cout << "DEBUG: " << s << endl;
+        cout << message << s << endl;
     }
 }

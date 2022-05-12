@@ -29,6 +29,7 @@ using namespace std;
  */
 void run(string source)
 {
+    DEBUG("In run()", "");
     // Java equivalent
     // Scanner scanner = new Scanner(source);
     // List<Token> tokens = scanner.scanTokens();
@@ -38,8 +39,7 @@ void run(string source)
     //   System.out.println(token);
     // }
 
-    Tok::Token t;
-    cout << "In run()" << endl;
+    Tok::Token t(Tok::TokenType::AND, "AND", (void*)"and", 2);
 }
 
 /**
@@ -58,7 +58,7 @@ void runFile(char *filename)
         string line;
         while (getline(file, line))
         {
-            DEBUG(line);
+            DEBUG("Processing line: ", line);
             run(line);
         }
         file.close();
@@ -67,8 +67,6 @@ void runFile(char *filename)
     {
         std::cerr << "Exception opening, reading or closing file." << std::endl;
     }
-
-    DEBUG("TODO: Implement runFile().");
 }
 
 /**
@@ -80,9 +78,9 @@ void runPrompt()
     string line;
     while (getline(std::cin, line))
     {
-        DEBUG(line);
+        DEBUG("Processing line: ", line);
         // run(line);
     }
 
-    DEBUG("TODO: Implement runPrompt()");
+    DEBUG("TODO: Implement runPrompt()", "");
 }
