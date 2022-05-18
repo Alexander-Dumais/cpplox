@@ -14,6 +14,7 @@ using namespace std;
 //     report(line, "", message);
 //   }
 
+//Java implementation from textbook
 //   private static void report(int line, String where,
 //                              String message) {
 //     System.err.println(
@@ -65,6 +66,7 @@ void runFile(char *filename)
     }
     catch (std::ifstream::failure e)
     {
+        //If the file.exceptions is too broad, this will be triggered due to character like EOF.
         std::cerr << "Exception opening, reading or closing file." << std::endl;
     }
 }
@@ -79,8 +81,6 @@ void runPrompt()
     while (getline(std::cin, line))
     {
         DEBUG("Processing line: ", line);
-        // run(line);
+        run(line);
     }
-
-    DEBUG("TODO: Implement runPrompt()", "");
 }
