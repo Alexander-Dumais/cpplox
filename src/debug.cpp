@@ -17,3 +17,10 @@ void DEBUG(string message, string s)
         cout << message << s << endl;
     }
 }
+
+void DEBUG(string message, Scan::Scanner &s) {
+    if (DEBUG_ON)
+    {
+        cout << message << s << endl;
+    }
+}

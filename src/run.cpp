@@ -35,7 +35,7 @@ void run(string source)
     std::vector<Tok::Token> tokens = scanner.scanTokens();
 
     //For now just print the tokens
-    std::cout << "Scanned Tokens: " << scanner << std::endl;
+    DEBUG("Scanned Tokens: ", scanner);
 }
 
 /**
@@ -73,9 +73,11 @@ void runFile(char *filename)
 void runPrompt()
 {
     string line;
+    DEBUG("Input line of lox code (currently operators only):", "");
     while (getline(std::cin, line))
     {
         DEBUG("Processing line: ", line);
         run(line);
+        DEBUG("Input line of lox code (currently operators only):", "");
     }
 }
