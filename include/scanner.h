@@ -3,8 +3,11 @@
 
 #include <map>
 #include <vector>
+#include <string.h>
 
 #include "token.h"
+
+#define _length(array) ((sizeof(array)) / (sizeof(array[0])))
 
 namespace Scan
 {
@@ -32,20 +35,51 @@ namespace Scan
     };
 
     /**
+     * @brief An Exception class for handling Exceptions during parsing
+     * 
+     */
+    class ParserException : public std::exception {
+    public:
+        const char* error;
+
+        ParserException(const char* error) {
+            error = what(error);
+        }
+
+        const char* what(const char* m) const throw () {
+            int l = _length(m);
+            char error[l];
+            strcpy(error, "ParserException error: \n\t ");
+            return strcat(error, m);
+        }
+    };
+
+    /**
      * @brief The lexical scanner of Lox will produce a vector of Tok::Token.
      * 
      */
     class Scanner {
-        const std::string source;
-        std::vector<Tok::Token> tokens;
+    public:
+        const std::string source{};
+        std::vector<Tok::Token> tokens{};
+    private:
         int start = 0;
         int current = 0;
         int line = 1;
 
+    public: 
         Scanner() = delete;
         Scanner(std::string source);
-
         std::vector<Tok::Token> scanTokens();
+        friend std::ostream& operator<<(std::ostream &os, Scanner &scanner) {
+            for (Tok::Token t : scanner.tokens) {
+                os << t.toString() << ", ";
+                std::flush(os);
+            }
+            return os << " ###END_TOKEN_LIST###" << std::endl;
+        }
+    
+    private:
         void scanToken();
         void number();
         void identifier();
@@ -64,5 +98,4 @@ namespace Scan
         //void addToken(Tok::TokenType type, int const* literal);
 
     };
-
 }

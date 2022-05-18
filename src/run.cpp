@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <assert.h>
 
 #include "run.h"
 #include "debug.h"
-#include "token.h"
-#include <assert.h>
+#include "scanner.h"
 
 using namespace std;
 
@@ -31,16 +31,11 @@ using namespace std;
 void run(string source)
 {
     DEBUG("In run()", "");
-    // Java equivalent
-    // Scanner scanner = new Scanner(source);
-    // List<Token> tokens = scanner.scanTokens();
+    Scan::Scanner scanner(source);
+    std::vector<Tok::Token> tokens = scanner.scanTokens();
 
-    // // For now, just print the tokens.
-    // for (Token token : tokens) {
-    //   System.out.println(token);
-    // }
-
-    Tok::Token t(Tok::TokenType::AND, "AND", (void*)"and", 2);
+    //For now just print the tokens
+    std::cout << "Scanned Tokens: " << scanner << std::endl;
 }
 
 /**
