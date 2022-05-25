@@ -7,8 +7,6 @@
 
 #include "token.h"
 
-#define _length(array) ((sizeof(array)) / (sizeof(array[0])))
-
 namespace Scan
 {
     /**
@@ -39,18 +37,17 @@ namespace Scan
      * 
      */
     class ParserException : public std::exception {
-    public:
+    private:
         const char* error;
 
-        ParserException(const char* error) {
-            error = what(error);
+    public:
+        ParserException(const char* errorMessage) : error(errorMessage) {
         }
 
-        const char* what(const char* m) const throw () {
-            int l = _length(m);
-            char error[l];
-            strcpy(error, "ParserException error: \n\t ");
-            return strcat(error, m);
+        ParserException() = delete;
+
+        const char* what() const noexcept {
+            return this->error;
         }
     };
 

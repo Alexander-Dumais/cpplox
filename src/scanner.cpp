@@ -86,10 +86,10 @@ namespace Scan
                     break;
 
                 default:
-                    throw ParserException("No matching Token in Scanner::scanToken(). ");
+                    throw ParserException("No matching Token in Scanner::scanToken(). ");;
             }
-        } catch(ParserException e) {
-            DEBUG(e.error, std::string("Line: ") + std::to_string(line));
+        } catch(ParserException const & e) {
+            DEBUG(std::string("ParserExcepiton | ") + e.what(), std::string("Line: ") + std::to_string(line));
         }
     }
     void number();
