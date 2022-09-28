@@ -33,3 +33,5 @@
 
 # Manual edits
 bin
+test/bin
+test/obj

@@ -1,0 +1,7 @@
+//uncomment lines when keywords are parsed correctly
+//var language = "Hello, World!";
+
+//These individual tokens should probably throw errors later if they can't be formed into expressions or statements
++
+-
+==
