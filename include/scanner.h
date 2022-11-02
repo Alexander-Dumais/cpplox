@@ -92,7 +92,7 @@ namespace Scan
         void addToken(Tok::TokenType type, void* literal);
         
         //template<typename T>  //Example of possible templated solution for accepting multiple literals, instead of void*
-        //void addToken(Tok::TokenType type, int const* literal);
+        //void addToken(Tok::TokenType type, T const* literal);
 
     };
 }
