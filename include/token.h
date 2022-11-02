@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "literal.h"
 
 namespace Tok {
 
@@ -85,11 +86,11 @@ namespace Tok {
     public:
         TokenType type;
         std::string lexeme;
-        void* literal;
+        Literal const* literal;
         int line;
 
         Token() = delete;
-        Token(TokenType type, std::string lexeme, void* literal, int line);
+        Token(TokenType type, std::string lexeme, Literal const* literal, int line);
         std::string toString() const;
     };
 }

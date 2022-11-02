@@ -161,7 +161,7 @@ namespace Scan
      * @param type The TokenType
      * @param literal The literal of the `type`
      */
-    void Scanner::addToken(Tok::TokenType type, void *literal) {
+    void Scanner::addToken(Tok::TokenType type, Tok::Literal const* literal) {
         std::string text = source.substr(start, current);
         tokens.emplace_back(type, text, literal, line); 
     }
