@@ -91,7 +91,7 @@ namespace Scan
         }
         catch (ParserException const &e)
         {
-            DEBUG(std::string("ParserExcepiton -- Scanner::scanToken() | ") + e.what(), std::string("Line: ") + std::to_string(e.where()));
+            DEBUG(std::string("ParserExcepiton -- Scanner::scanToken() | ") + e.what(), std::string(", Line: ") + std::to_string(e.where()));
         }
     }
     void number();

@@ -121,11 +121,11 @@ namespace Tok
     public:
         TokenType type;
         std::string lexeme;
-        Literal const * literal;
+        Literal literal;
         int line;
 
         Token() = delete;
-        Token(TokenType type, std::string lexeme, Literal const * literal, int line);
+        Token(TokenType type, std::string lexeme, Literal literal, int line);
         std::string toString() const;
     };
 }

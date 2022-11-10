@@ -8,5 +8,5 @@ namespace Tok
     #define String std::string
     #define Nil std::nullptr_t
 
-    using Literal = std::variant<Boolean, Number, String, Nil>;
+    using Literal = const std::variant<Boolean, Number, String, Nil>;
 }
