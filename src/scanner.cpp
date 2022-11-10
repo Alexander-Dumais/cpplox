@@ -86,40 +86,46 @@ namespace Scan
                     break;
 
                 default:
-                    throw ParserException("No matching Token in Scanner::scanToken(). ");;
+                    throw ParserException("Unexpected character", line);
             }
-        } catch(ParserException const & e) {
-            DEBUG(std::string("ParserExcepiton | ") + e.what(), std::string("Line: ") + std::to_string(line));
+        }
+        catch (ParserException const &e)
+        {
+            DEBUG(std::string("ParserExcepiton -- Scanner::scanToken() | ") + e.what(), std::string("Line: ") + std::to_string(e.where()));
         }
     }
     void number();
     void identifier();
 
     /**
-     * @brief match the next character in `source` to the `expected` character
-     * 
+     * @brief Match the next character in `source` to the `expected` character
+     *
      * @param expected the expected character
      * @return true if the character matched `expected`
      * @return false if the character doesnt match `expected` or if at the end of `source`
      */
-    bool Scanner::match(char expected) {
-        if (isAtEnd()) return false;
-        if (source.at(current) != expected) return false;
+    bool Scanner::match(char expected)
+    {
+        if (isAtEnd())
+            return false;
+        if (source.at(current) != expected)
+            return false;
 
         current++;
         return true;
     }
 
     /**
-     * @brief peek at the current character without advancing; single character lookahead.
-     * 
-     * @return char the current character 
+     * @brief Peeks at the current character without advancing; single character lookahead.
+     *
+     * @return char the current character
      */
-    char Scanner::peek() {
-        if(isAtEnd()) return '\0';
-        return source.at(current); 
+    char Scanner::peek()
+    {
+        if (isAtEnd())
+            return '\0';
+        return source.at(current);
     }
-
 
     char peekNext();
     bool isAlpha(char c);
@@ -127,10 +133,9 @@ namespace Scan
     bool isDigit(char c);
 
     /**
-     * @brief
+     * @brief Determines if scanning the `source`    is complete.
      *
-     * @return true if the current character location is at or beyond the source length
-     * @return false if the curren character location is not at or beyond the source length
+     * @return true if the current character location is at or beyond the source length, false otherwise
      */
     bool Scanner::isAtEnd()
     {
@@ -139,30 +144,33 @@ namespace Scan
 
     /**
      * @brief Increment `current` to be the next character in `source` and return the next character
-     * 
+     *
      * @return The next character
      */
-    char Scanner::advance() {
+    char Scanner::advance()
+    {
         return source.at(current++);
     }
 
     /**
      * @brief addToken with no literal
-     * 
+     *
      * @param type the Token type
      */
-    void Scanner::addToken(Tok::TokenType type) {
+    void Scanner::addToken(Tok::TokenType type)
+    {
         addToken(type, nullptr);
     }
 
     /**
      * @brief add a Token to the end of `tokens`
-     * 
+     *
      * @param type The TokenType
      * @param literal The literal of the `type`
      */
-    void Scanner::addToken(Tok::TokenType type, Tok::Literal const* literal) {
+    void Scanner::addToken(Tok::TokenType type, Tok::Literal const *literal)
+    {
         std::string text = source.substr(start, current);
-        tokens.emplace_back(type, text, literal, line); 
+        tokens.emplace_back(type, text, literal, line);
     }
 }

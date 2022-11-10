@@ -1,7 +1,8 @@
 #pragma once
 #include <variant>
 
-namespace Tok {
+namespace Tok
+{
     #define Boolean bool
     #define Number double
     #define String std::string

@@ -18,7 +18,8 @@ void DEBUG(string message, string s)
     }
 }
 
-void DEBUG(string message, Scan::Scanner &s) {
+void DEBUG(string message, Scan::Scanner &s)
+{
     if (DEBUG_ON)
     {
         cout << message << s << endl;
