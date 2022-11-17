@@ -88,7 +88,12 @@ namespace Scan
                 case '"': string(); break;
 
                 default:
-                    throw ParserException("Unexpected character", line);
+                    if (isDigit(c)) {
+                        number();
+                    }
+                    else{
+                        throw ParserException("Unexpected character", line);
+                    }
             }
         }
         catch (ParserException const &e)
@@ -97,6 +102,13 @@ namespace Scan
         }
     }
 
+    /**
+     * @brief Scan for the contents of the string
+     * 
+     * The contents of the string are saved and added as a token.
+     * If the end of the file is reached before the closing '"' is found, throw an error.
+     * 
+     */
     void Scanner::string() 
     {
         while (peek() != '"' && !isAtEnd()) 
@@ -117,7 +129,26 @@ namespace Scan
         addToken(Tok::TokenType::STRING, value);
     }
 
-    void number();
+    /**
+     * @brief Scan the full number
+     * 
+     */
+    void Scanner::number()
+    {
+        while (isDigit(peek())) advance();
+
+        //Look for fractional part
+        if (peek() == '.' && isDigit(peekNext())) {
+            //consume '.'
+            advance();
+
+            while (isDigit(peek())) advance();
+        }
+
+        const Number value = std::stod( source.substr(start, current) );
+        addToken(Tok::TokenType::NUMBER, value);
+    }
+
     void identifier();
 
     /**
@@ -150,10 +181,29 @@ namespace Scan
         return source.at(current);
     }
 
-    char peekNext();
+    /**
+     * @brief Peeks the next character without advancing; two character lookahead
+     * 
+     * @return char the next character
+     */
+    char Scanner::peekNext() {
+        if (current + 1 >= (int)source.length()) return '\0';
+        return source.at(current + 1);
+    }
+
     bool isAlpha(char c);
     bool isAlphaNumeric(char c);
-    bool isDigit(char c);
+
+    /**
+     * @brief is the character a digit?
+     * 
+     * @param c, a char
+     * @return true if the character `c` is between 0 and 9, false otherwise
+     */
+    inline bool Scanner::isDigit(char c)
+    {
+        return c >= '0' && c <= '9';
+    }
 
     /**
      * @brief Determines if scanning the `source`    is complete.
