@@ -95,13 +95,19 @@ void runFile(char *filename)
  */
 void runPrompt()
 {
-    string line;
-    DEBUG("Input line of lox code (currently operators only):", "");
-    while (getline(std::cin, line))
-    {
-        DEBUG("Processing line: ", line);
-        run(line);
-        hadError = false; // If in a repl, we dont want one error to break the entire repl.
+    try {
+        string line;
         DEBUG("Input line of lox code (currently operators only):", "");
+        while (getline(std::cin, line))
+        {
+            DEBUG("Processing line: ", line);
+            run(line);
+            hadError = false; // If in a repl, we dont want one error to break the entire repl.
+            DEBUG("Input line of lox code (currently operators only):", "");
+        }
+    } 
+    catch (std::iostream::failure &e)
+    {
+        std::cerr << "Exception reading line in runPrompt." << std::endl;
     }
 }
