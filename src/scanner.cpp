@@ -3,6 +3,7 @@
 
 #include "scanner.h"
 #include "debug.h"
+#include "lox_error.h"
 
 namespace Scan
 {
@@ -84,6 +85,7 @@ namespace Scan
                 case '\n':
                     line++;
                     break;
+                case '"': string(); break;
 
                 default:
                     throw ParserException("Unexpected character", line);
@@ -94,6 +96,27 @@ namespace Scan
             DEBUG(std::string("ParserExcepiton -- Scanner::scanToken() | ") + e.what(), std::string(", Line: ") + std::to_string(e.where()));
         }
     }
+
+    void Scanner::string() 
+    {
+        while (peek() != '"' && !isAtEnd()) 
+        {
+            if (peek() == '\n') line++;
+            advance();
+        }
+
+        if (isAtEnd()) {
+            lox_error::error(line, "Unterminated string.");
+            return;
+        }
+
+        // closing the ".
+        advance();
+
+        String value = source.substr(start + 1, current - 1);
+        addToken(Tok::TokenType::STRING, value);
+    }
+
     void number();
     void identifier();
 
@@ -168,7 +191,7 @@ namespace Scan
      * @param type The TokenType
      * @param literal The literal of the `type`
      */
-    void Scanner::addToken(Tok::TokenType type, Tok::Literal const *literal)
+    void Scanner::addToken(Tok::TokenType type, Tok::Literal const &literal)
     {
         std::string text = source.substr(start, current);
         tokens.emplace_back(type, text, literal, line);

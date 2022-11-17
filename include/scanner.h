@@ -91,6 +91,7 @@ namespace Scan
 
     private:
         void scanToken();
+        void string();
         void number();
         void identifier();
         bool match(char expected);
@@ -102,7 +103,7 @@ namespace Scan
         bool isAtEnd();
         char advance();
         void addToken(Tok::TokenType type);
-        void addToken(Tok::TokenType type, Tok::Literal const *literal);
+        void addToken(Tok::TokenType type, Tok::Literal const &literal);
 
         // template<typename T>  //Example of possible templated solution for accepting multiple literals, instead of void*
         // void addToken(Tok::TokenType type, T const* literal);

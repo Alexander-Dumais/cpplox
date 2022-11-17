@@ -6,43 +6,9 @@
 #include "run.h"
 #include "debug.h"
 #include "scanner.h"
+#include "lox_error.h"
 
 using namespace std;
-
-static bool hadError = false;
-
-/**
- * @brief report an error to standard out
- *
- * @param line of the error
- * @param where source of error
- * @param message error message
- *
- * TODO: It's possible to have very precise error reports where the exact token causing a parsing problem is identified.
- *       I would like to do this in the near future.
- *
- * ideal example:
- *  Error: Unexpected "," in argument list.
- *
- *   15 | function(first, second,);
- *                              ^-- Here.
- */
-void report(int line, string where, string message)
-{
-    std::cout << "[line " << line << "] Error " << where << ": " << message << std::endl;
-    hadError = true;
-}
-
-/**
- * @brief Report an error with the location and a custom message
- *
- * @param line of the error
- * @param message describing the error
- */
-void error(int line, string message)
-{
-    report(line, "", message);
-}
 
 /**
  * @brief Scan the source, tokenize the source, then run the source
@@ -77,7 +43,7 @@ void runFile(char *filename)
         {
             DEBUG("Processing line: ", line);
             run(line);
-            if (hadError)
+            if (lox_error::hadError)
                 exit(1);
         }
         file.close();
@@ -102,7 +68,7 @@ void runPrompt()
         {
             DEBUG("Processing line: ", line);
             run(line);
-            hadError = false; // If in a repl, we dont want one error to break the entire repl.
+            lox_error::hadError = false; // If in a repl, we dont want one error to break the entire repl.
             DEBUG("Input line of lox code (currently operators only):", "");
         }
     } 
