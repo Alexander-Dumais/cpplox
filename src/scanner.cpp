@@ -139,7 +139,7 @@ namespace Scan
      */
     bool Scanner::isAtEnd()
     {
-        return current >= source.length();
+        return current >= (int)source.length();
     }
 
     /**

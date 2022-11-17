@@ -46,7 +46,7 @@ build_lox() {
 
     #echo on inside subshell
     (set -x;
-    g++ -std=c++17 -o bin/cpplox -I./include/ src/*.cpp)
+    g++-9 -std=c++2a -Wall -o bin/cpplox -I./include/ src/*.cpp)
     
     printf "${CYAN}Finished Building lox${NC}\n\n"
 }

@@ -6,9 +6,9 @@
 #TODO grab all individual test files and compile them. Only link the src files once and then include that as a library for each test.
 
 #compile tests
-g++ -std=c++17 -o ./bin/test_scan_ops -I../include/ -I../src/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_operators.cpp
-g++ -std=c++17 -o ./bin/test_scan -I../include/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_test.cpp
+g++-9 -std=c++2a -Wall -o ./bin/test_scan_ops -I../include/ -I../src/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_operators.cpp
+g++-9 -std=c++2a -Wall -o ./bin/test_scan_keywords -I../include/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_keywords.cpp
 
 #run tests
 ./bin/test_scan_ops
-./bin/test_scan
+./bin/test_scan_keywords

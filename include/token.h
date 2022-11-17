@@ -23,12 +23,13 @@ namespace Tok
         ">", ">=", "<", "<=",
 
         // Literals.
-        "identifier", "string", "number",
+        "IDENTIFIER", "STRING", "NUMBER",
 
-        // Keywords
-        "and", "class", "else", "false", "fun", "for",
-        "if", "nil", "or", "print", "return", "super",
-        "this", "true", "var", "while", "EOF"};
+        // KEYWORDS
+        "AND", "CLASS", "ELSE", "FALSE", "FUN", "FOR",
+        "IF", "NIL", "OR", "PRINT", "RETURN", "SUPER",
+        "THIS", "TRUE", "VAR", "WHILE", "EOF"
+        };
 
     /**
      * @brief The enumerated TokenTypes for the Lox Language.

@@ -82,7 +82,7 @@ void runFile(char *filename)
         }
         file.close();
     }
-    catch (std::ifstream::failure e)
+    catch (std::ifstream::failure &e)
     {
         // If the file.exceptions is too broad, this will be triggered due to character like EOF.
         std::cerr << "Exception opening, reading or closing file." << std::endl;
