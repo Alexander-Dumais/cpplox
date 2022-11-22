@@ -91,9 +91,14 @@ namespace Scan
                     if (isDigit(c)) {
                         number();
                     }
+                    else if (isAlpha(c))
+                    {
+                        identifier();
+                    }
                     else{
                         throw ParserException("Unexpected character", line);
                     }
+                    break;
             }
         }
         catch (ParserException const &e)
@@ -125,7 +130,8 @@ namespace Scan
         // closing the ".
         advance();
 
-        String value = source.substr(start + 1, current - 1);
+        //trim surrounding quotes
+        const String value = source.substr(start + 1, current - 1);
         addToken(Tok::TokenType::STRING, value);
     }
 
@@ -149,7 +155,25 @@ namespace Scan
         addToken(Tok::TokenType::NUMBER, value);
     }
 
-    void identifier();
+    void Scanner::identifier()
+    {
+        while(isAlphaNumeric(peek())) advance();
+
+        const String value = source.substr(start, current);
+        DEBUG("Current substring: ", value);
+        Tok::TokenType typ;
+        try
+        {
+            typ = Scan::keywords.at(value);
+        }
+        catch(const std::out_of_range &e)
+        {
+            //value not in keywords, so it's an IDENTIFIER
+            typ = Tok::TokenType::IDENTIFIER;
+        }
+        
+        addToken(typ);
+    }
 
     /**
      * @brief Match the next character in `source` to the `expected` character
@@ -187,12 +211,33 @@ namespace Scan
      * @return char the next character
      */
     char Scanner::peekNext() {
-        if (current + 1 >= (int)source.length()) return '\0';
+        if (current + 1 >= (int)source.length()) 
+            return '\0';
         return source.at(current + 1);
     }
 
-    bool isAlpha(char c);
-    bool isAlphaNumeric(char c);
+    /**
+     * @brief Is the character an alphabet character, or an underscore
+     * 
+     * @param c the char being checked
+     * @return true if `c` is a lower case character, upper case character, 
+     *          or '_', false otherwise.
+     */
+    inline bool Scanner::isAlpha(char c) {
+        return  (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_';
+    }
+
+    /**
+     * @brief Is the character an alphabet character, an underscore or a digit
+     * 
+     * @param c the character being checked
+     * @return true if `c` is alpha numeric, false otherwise
+     */
+    inline bool Scanner::isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
+    }
 
     /**
      * @brief is the character a digit?
@@ -210,7 +255,7 @@ namespace Scan
      *
      * @return true if the current character location is at or beyond the source length, false otherwise
      */
-    bool Scanner::isAtEnd()
+    inline bool Scanner::isAtEnd()
     {
         return current >= (int)source.length();
     }
