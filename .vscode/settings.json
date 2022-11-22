@@ -42,6 +42,6 @@
         "hash_map": "cpp",
         "map": "cpp",
         "iterator": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
     }
 }

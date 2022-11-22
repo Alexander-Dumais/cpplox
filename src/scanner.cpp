@@ -85,7 +85,9 @@ namespace Scan
                 case '\n':
                     line++;
                     break;
-                case '"': string(); break;
+                case '"': 
+                    string();
+                    break;
 
                 default:
                     if (isDigit(c)) {
@@ -95,7 +97,8 @@ namespace Scan
                     {
                         identifier();
                     }
-                    else{
+                    else
+                    {
                         throw ParserException("Unexpected character", line);
                     }
                     break;
@@ -127,11 +130,12 @@ namespace Scan
             return;
         }
 
-        // closing the ".
+        // closing the '"'.
         advance();
 
         //trim surrounding quotes
-        const String value = source.substr(start + 1, current - 1);
+        const String value = source.substr(start + 1, (current - 1) - (start + 1));
+        std::cout << value << std::endl;
         addToken(Tok::TokenType::STRING, value);
     }
 
@@ -151,27 +155,28 @@ namespace Scan
             while (isDigit(peek())) advance();
         }
 
-        const Number value = std::stod( source.substr(start, current) );
+        const Number value = std::stod( source.substr(start, current - start) );
         addToken(Tok::TokenType::NUMBER, value);
     }
 
     void Scanner::identifier()
-    {
-        while(isAlphaNumeric(peek())) advance();
+    {       
+        while(isAlphaNumeric(peek()))
+            advance();
 
-        const String value = source.substr(start, current);
-        DEBUG("Current substring: ", value);
+        const String value = source.substr(start, current - start);
         Tok::TokenType typ;
-        try
+
+        if (Scan::keywords.find(value) != Scan::keywords.end())
         {
-            typ = Scan::keywords.at(value);
+            //value in keywords, so it's a specific keyword
+            typ = Scan::keywords.at(value); 
         }
-        catch(const std::out_of_range &e)
+        else 
         {
             //value not in keywords, so it's an IDENTIFIER
             typ = Tok::TokenType::IDENTIFIER;
         }
-        
         addToken(typ);
     }
 
@@ -223,10 +228,10 @@ namespace Scan
      * @return true if `c` is a lower case character, upper case character, 
      *          or '_', false otherwise.
      */
-    inline bool Scanner::isAlpha(char c) {
+    bool Scanner::isAlpha(char c) {
         return  (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
-                c == '_';
+                c == '_';        
     }
 
     /**
@@ -235,8 +240,8 @@ namespace Scan
      * @param c the character being checked
      * @return true if `c` is alpha numeric, false otherwise
      */
-    inline bool Scanner::isAlphaNumeric(char c) {
-        return isAlpha(c) || isDigit(c);
+    bool Scanner::isAlphaNumeric(char c) {
+        return (isAlpha(c) || isDigit(c));
     }
 
     /**
@@ -245,9 +250,9 @@ namespace Scan
      * @param c, a char
      * @return true if the character `c` is between 0 and 9, false otherwise
      */
-    inline bool Scanner::isDigit(char c)
+    bool Scanner::isDigit(char c)
     {
-        return c >= '0' && c <= '9';
+        return (c >= '0' && c <= '9');
     }
 
     /**
@@ -255,7 +260,7 @@ namespace Scan
      *
      * @return true if the current character location is at or beyond the source length, false otherwise
      */
-    inline bool Scanner::isAtEnd()
+    bool Scanner::isAtEnd()
     {
         return current >= (int)source.length();
     }
@@ -288,7 +293,7 @@ namespace Scan
      */
     void Scanner::addToken(Tok::TokenType type, Tok::Literal const &literal)
     {
-        std::string text = source.substr(start, current);
+        std::string text = source.substr(start, current - start);
         tokens.emplace_back(type, text, literal, line);
     }
 }
