@@ -3,7 +3,7 @@
 
 #include <map>
 #include <vector>
-#include <string.h>
+#include <iterator>
 
 #include "token.h"
 
@@ -81,12 +81,14 @@ namespace Scan
         std::vector<Tok::Token> scanTokens();
         friend std::ostream &operator<<(std::ostream &os, Scanner &scanner)
         {
-            for (Tok::Token t : scanner.tokens)
+            //using iterator to avoid trailing comma
+            for (auto it = std::begin(scanner.tokens); it != std::end(scanner.tokens); ++it)
             {
-                os << t.toString() << ", ";
-                std::flush(os);
+                if (it != scanner.tokens.begin())
+                    os << ", ";
+                os << it->toString();
             }
-            return os << " ###END_TOKEN_LIST###" << std::endl;
+            return os;
         }
 
     private:

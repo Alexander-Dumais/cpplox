@@ -33,7 +33,7 @@ namespace Scan
             scanToken();
         }
 
-        tokens.emplace_back(Tok::TokenType::EOF_LOX, "", nullptr, line);
+        tokens.emplace_back(Tok::TokenType::EOF_LOX, "EOF", nullptr, line);
         return tokens;
     }
 
@@ -134,8 +134,7 @@ namespace Scan
         advance();
 
         //trim surrounding quotes
-        const String value = source.substr(start + 1, (current - 1) - (start + 1));
-        std::cout << value << std::endl;
+        const String value = source.substr(start + 1, current - start);
         addToken(Tok::TokenType::STRING, value);
     }
 

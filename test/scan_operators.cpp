@@ -1,7 +1,11 @@
 #include <iostream>
+#include <sstream>
+#include <iterator>
+#include <vector>
 #include "scanner.h"
 
-struct source_pairs {
+struct source_pairs 
+{
     const std::string source;
     const std::string describe;
 
@@ -10,6 +14,17 @@ struct source_pairs {
     source_pairs(std::string source, std::string describe): 
         source(source), describe(describe){}
 };
+
+std::string toString(Scan::Scanner &scanner) 
+{
+    std::stringstream ss;
+    for(auto t : scanner.tokens)
+    {
+        ss << t.toString() << " ";
+    }
+    
+    return ss.str();
+}
 
 int main()
 {
@@ -24,22 +39,23 @@ int main()
         {"\n ", "White spaces and comments"},
         {"\t                 \n", "White spaces and comments"},
         {"\0", "Lox EOF"},
-
-
-        //{"_ aa bb cc dd ee ff gg", "identifiers"}
-        //{"0 1 2 3 4 5 6 7 8 9 10", "numbers"},
-        //{"00 010 0.0", "Odd numbers that should still scan"},
-        //{".0 .1 100.0.0, 0.hello", "Oddd Numbers that shouldn't scan properly (they will scan as dots and numbers)"},
-        //{"and, or,or", "keyword/ifentifier testing"},
-        //{"or and", "or"},
     };
 
-    for (auto line : input) {
+    std::cout << "Testing the following: \n\n";
+    for (auto line : input)
+    {
         std::cout << line.describe << "\n";
         
         Scan::Scanner scanner(line.source);
         scanner.scanTokens();
         
-        std::cout << scanner << "\n\n";
+        std::cout << "types and lexemes:\n" << scanner << "\n";
+        for (auto it = scanner.tokens.begin(); it != scanner.tokens.end(); ++it)
+        {
+            if (it != scanner.tokens.begin())
+                std::cout << ", ";
+            std::cout << it->lexeme;
+        }
+        std::cout << "\n\n";
     }
 }

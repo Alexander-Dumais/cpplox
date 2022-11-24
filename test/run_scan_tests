@@ -15,15 +15,15 @@ end=`date +%s.%N`
 runtime=$( echo "$end - $start" | bc -l )
 echo "test_scan_ops compile time: $runtime"
 
-start=`date +%s.%N`
-(
-   set -x;
-   g++-9 -std=c++2a -Wall -o ./bin/test_scan_keywords -I../include/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_keywords.cpp
-)
-end=`date +%s.%N`
-runtime=$( echo "$end - $start" | bc -l )
-echo "test_scan_keywords compile time: $runtime"
+# start=`date +%s.%N`
+# (
+#    set -x;
+#    g++-9 -std=c++2a -Wall -o ./bin/test_scan_keywords -I../include/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_keywords.cpp
+# )
+# end=`date +%s.%N`
+# runtime=$( echo "$end - $start" | bc -l )
+# echo "test_scan_keywords compile time: $runtime"
 
 # run tests
-# ./bin/test_scan_ops
+./bin/test_scan_ops
 # ./bin/test_scan_keywords

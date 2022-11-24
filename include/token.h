@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "literal.h"
+#include <type_traits>
 
 namespace Tok
 {
