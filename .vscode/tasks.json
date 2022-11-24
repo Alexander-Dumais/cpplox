@@ -4,8 +4,10 @@
         {
             "type": "cppbuild",
             "label": "g++build",
-            "command": "/usr/bin/g++",
+            "command": "/usr/bin/g++-9",
             "args": [
+                "-std=c++2a",
+                "-Wall",
                 "-fdiagnostics-color=always",
                 "-I",
                 "${workspaceFolder}/include/",
@@ -24,7 +26,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "compiler: /usr/bin/g++"
+            "detail": "compiler: /usr/bin/g++-9"
         }
     ]
 }
