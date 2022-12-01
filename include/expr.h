@@ -10,7 +10,6 @@ namespace Exp{
         const Expr &right;
 
     public:
-        Expr() = delete;
         Expr(const Expr& left, const Tok::Token& oper, const Expr& right) : left(left), oper(oper), right(right){};
         virtual ~Expr() = 0;
     };
