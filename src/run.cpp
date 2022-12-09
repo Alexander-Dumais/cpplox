@@ -63,13 +63,13 @@ void runPrompt()
 {
     try {
         string line;
-        DEBUG("Input line of lox code (currently operators only):", "");
+        DEBUG("Input line of lox code:", "");
         while (getline(std::cin, line))
         {
             DEBUG("Processing line: ", line);
             run(line);
             lox_error::hadError = false; // If in a repl, we dont want one error to break the entire repl.
-            DEBUG("Input line of lox code (currently operators only):", "");
+            DEBUG("Input line of lox code:", "");
         }
     } 
     catch (std::iostream::failure &e)

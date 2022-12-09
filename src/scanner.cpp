@@ -134,7 +134,7 @@ namespace Scan
         advance();
 
         //trim surrounding quotes
-        const std::string value = source.substr(start + 1, current - start);
+        const std::string value = source.substr(start + 1, current - start - 2);
         addToken(Tok::TokenType::STRING, value);
     }
 

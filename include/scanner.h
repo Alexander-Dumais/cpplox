@@ -86,7 +86,7 @@ namespace Scan
             {
                 if (it != scanner.tokens.begin())
                     os << ", ";
-                os << it->toString();
+                os << it->litToString();
             }
             return os;
         }
