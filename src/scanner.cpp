@@ -215,7 +215,7 @@ namespace Scan
      * @return char the next character
      */
     char Scanner::peekNext() {
-        if (current + 1 >= (int)source.length()) 
+        if (current + 1 >= static_cast<int>(source.length())) 
             return '\0';
         return source.at(current + 1);
     }
@@ -261,7 +261,7 @@ namespace Scan
      */
     bool Scanner::isAtEnd()
     {
-        return current >= (int)source.length();
+        return current >= static_cast<int>(source.length());
     }
 
     /**

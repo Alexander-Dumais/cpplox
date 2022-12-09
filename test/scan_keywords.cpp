@@ -5,7 +5,6 @@ using namespace Tok;
 
 int main()
 {
-    //auto tok = Tok::Token(Tok::TokenType::STRING, "Example", "Example", 1);
     std::vector<Token> keywords;
     keywords.emplace_back(Token(TokenType::AND, "and", "and", 1));
     keywords.emplace_back(Token(TokenType::CLASS, "class", "class", 2));
