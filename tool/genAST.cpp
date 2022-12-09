@@ -2,30 +2,52 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <algorithm>
 
-//ltrim and rtrim taken from:
-//https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
-// trim from start (in place)
-static inline void ltrim(std::string &s)
-{
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-        return !std::isspace(ch);
-    }));
-};
+#include "stringUtils.h"
 
-// trim from end (in place)
-static inline void rtrim(std::string &s)
+/**
+ * @brief writes the class types to a file using the std::ofstream `writer`
+ * 
+ * @param writer std::ofstream with a set path
+ * @param className the string name of the class
+ * @param parentClass the parent class, if any
+ * @param fields the fields of the class
+ */
+void defineType(std::ofstream& writer, std::string baseName,
+                std::string className, std::string parentClass,
+                std::string fields)
 {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-        return !std::isspace(ch);
-    }).base(), s.end());
-};
+    int len = parentClass.length();
+    //scope for TAB and NL
+    {
+        #define TAB "\t"
+        #define NL "\n"
 
-static inline void trim(std::string & s)
-{
-    ltrim(s);
-    rtrim(s);
+        //Class header
+        writer  << TAB << "struct " << className
+                << TAB << (len > 0 ? " : " : "")
+                << (len > 0 ? parentClass : "") << NL
+                << TAB << "{" << NL
+                ;
+
+        //fields
+        //writer  << TAB << TAB <<
+
+        //constructors and destructors
+        writer  << TAB << TAB << className << "() = delete;" << NL
+                ;
+        writer  << TAB << TAB << className << "(" << fields << ")" << NL
+                << TAB << TAB << "{};" << NL
+                ;
+        writer  << TAB << TAB << "~" << className << "()" << NL
+                << TAB << TAB << "{" << NL
+                << TAB << TAB << TAB << "delete& left; delete& oper; delete& right;" << NL
+                << TAB << TAB << "};" << NL << NL
+                ;
+
+        //close class definition
+        writer << TAB << "};" << NL;
+    }
 }
 
 /**
@@ -38,21 +60,23 @@ static inline void trim(std::string & s)
 void defineAst(std::string outDir, std::string baseName, std::vector<std::string> types)
 {
     //Lowercase basename to fit my c++ file naming standard
-    std::transform(baseName.begin(), baseName.end(), baseName.begin(),
-    [](unsigned char c){ return std::tolower(c); });
+    toLower(baseName);
 
     //Open fileWriter with path 
     std::string path = outDir + "/" + baseName + ".h";
-    std::cout << path << "\n";
-    std::ofstream fileWriter(path);
+    std::ofstream *fileWriter = new std::ofstream(path);
 
     //Build the file expr.h
     //includes and namespace
-    fileWriter  << "#pragma once\n"
+    *fileWriter << "//GENERATED FILE: This is a file generated using ./tool/getAST.cpp\n"
+                << "#pragma once\n"
                 << "#include \"token.h\"\n\n"
 
                 << "namespace Exp{\n"
                 ;
+
+    //TODO: Define base Expr virtual function
+
 
     //For every class, generate the constructor
     for (std::string type : types)
@@ -61,24 +85,26 @@ void defineAst(std::string outDir, std::string baseName, std::vector<std::string
         int secondDelim = type.find_last_of("|"); //second delimiter location
 
         std::string className = type.substr(0, firstDelim);
-        trim(className);
-        //std::cout << "###Classname- " << className << "\n";
-
         std::string parentClass = type.substr(firstDelim + 1, secondDelim - firstDelim - 1);
-        trim(parentClass);
-        //std::cout << "###parentClass- " << parentClass << "\n";
-        
         std::string fields = type.substr(secondDelim + 1, type.length() - secondDelim);
+        trim(className);
+        trim(parentClass);
         trim(fields);
-        //std::cout << "###Fields- " << fields << "\n\n";
 
+        //TODO: remove debugging code
+        // std::cout << "###Classname- " << className << "\n";
+        // std::cout << "###parentClass- " << parentClass << "\n";
+        // std::cout << "###Fields- " << fields << "\n\n";
+        
+        defineType(*fileWriter, baseName, className, parentClass, fields);
     }
 
     //close namespace scope
-    fileWriter << "}" << std::endl;
+    *fileWriter << "}" << std::endl;
 
-    //finally close fileWriter
-    fileWriter.close();
+    //finally close and delete fileWriter
+    fileWriter->close();
+    delete fileWriter;
 }
 
 /**
@@ -96,10 +122,10 @@ int main(int argc, char const *argv[])
     defineAst(outDir, "Expr", std::vector<std::string>
     {
         "Expr     |  | const Expr& left, const Tok::Token& oper, const Expr& right",
-        "Binary   | public virtial Expr | const Expr& left, const Tok::Token& oper, const Expr& right",
-        "Grouping | public virtual Expr | const Expr& expression",
-        "Literal  | public virtual Expr | const Literal& value",
-        "Unary    | public virtual Expr | const Tok::Token& oper, const Expr& right"
+        "Binary   | public Expr | const Expr& left, const Tok::Token& oper, const Expr& right",
+        "Unary    | public Expr | const Tok::Token& oper, const Expr& right",
+        "Literal  | public Expr | const Literal& value",
+        "Grouping | public Expr | const Expr& expression",
     });
 
     return 0;
