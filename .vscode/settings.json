@@ -46,6 +46,7 @@
         "functional": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "bit": "cpp"
+        "bit": "cpp",
+        "any": "cpp"
     }
 }

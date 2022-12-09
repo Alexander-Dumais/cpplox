@@ -134,7 +134,7 @@ namespace Scan
         advance();
 
         //trim surrounding quotes
-        const String value = source.substr(start + 1, current - start);
+        const std::string value = source.substr(start + 1, current - start);
         addToken(Tok::TokenType::STRING, value);
     }
 
@@ -154,7 +154,7 @@ namespace Scan
             while (isDigit(peek())) advance();
         }
 
-        const Number value = std::stod( source.substr(start, current - start) );
+        const double value = std::stod( source.substr(start, current - start) );
         addToken(Tok::TokenType::NUMBER, value);
     }
 
@@ -163,7 +163,7 @@ namespace Scan
         while(isAlphaNumeric(peek()))
             advance();
 
-        const String value = source.substr(start, current - start);
+        const std::string value = source.substr(start, current - start);
         Tok::TokenType typ;
 
         if (Scan::keywords.find(value) != Scan::keywords.end())
@@ -290,7 +290,7 @@ namespace Scan
      * @param type The TokenType
      * @param literal The literal of the `type`
      */
-    void Scanner::addToken(Tok::TokenType type, Tok::Literal const &literal)
+    void Scanner::addToken(Tok::TokenType type, std::any const &literal)
     {
         std::string text = source.substr(start, current - start);
         tokens.emplace_back(type, text, literal, line);
