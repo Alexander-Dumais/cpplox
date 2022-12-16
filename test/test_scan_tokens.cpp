@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <tuple>
 #include <functional>
 #include "scanner.h"
 
@@ -94,7 +93,7 @@ AllTokens fillTokenVectors()
  * @param tokens The Token vector
  * @param condition a lambda conditional for matching known tokens
  */
-void testVecOfTokens(std::string describe, std::vector<Token> &tokens, bool(*condition)(Token))
+void testVecOfTokens(std::string describe, std::vector<Token> &tokens, std::function<bool(Token)> condition)
 {
     std::cout << "\n" << describe << "\n\n";
     std::cout << "lexeme" << "\t-    " << "TYPE" << "\n\n";
