@@ -3,18 +3,6 @@
 # cpplox run tests script
 # Alexander Dumais
 
-# TODO grab all individual test files and compile them. Only link the src files once and then include that as a library for each test.
-
-# compile tests
-start=`date +%s.%N`
-(
-    set -x;
-    g++-9 -std=c++2a -Wall -o ./bin/test_scan_ops -I../include/ -I../src/ ../src/debug.cpp ../src/run.cpp ../src/scanner.cpp ../src/token.cpp scan_operators.cpp
-)
-end=`date +%s.%N`
-runtime=$( echo "$end - $start" | bc -l )
-echo "test_scan_ops compile time: $runtime"
-
 start=`date +%s.%N`
 (
    set -x;
@@ -25,5 +13,4 @@ runtime=$( echo "$end - $start" | bc -l )
 echo "test_scan_keywords compile time: $runtime"
 
 # run tests
-./bin/test_scan_ops
 ./bin/test_scan_tokens

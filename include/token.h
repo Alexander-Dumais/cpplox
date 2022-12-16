@@ -73,7 +73,7 @@ namespace Tok
         Token() = delete;
         Token(const TokenType type, const std::string lexeme, const std::any literal, const int line);
         std::string toStringType() const;
-        std::string litToString() const;
+        std::string toStringLit() const;
         std::string toString() const;
     };
 }

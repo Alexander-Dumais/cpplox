@@ -13,7 +13,7 @@ namespace Tok
 
     std::string Token::toString() const
     {
-        return toStringType() + ", lexeme: '" + this->lexeme + "', literal: " + litToString();
+        return toStringType() + ", lexeme: '" + this->lexeme + "', literal: " + toStringLit();
     }
 
     std::string Token::toStringType() const
@@ -21,7 +21,7 @@ namespace Tok
         return Tok::toString(type);
     }
 
-    std::string Token::litToString() const 
+    std::string Token::toStringLit() const 
     {
         switch (this->type) 
         {
