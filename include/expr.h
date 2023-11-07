@@ -7,10 +7,10 @@ namespace Exp{
     {
     public:
         Expr() = default;
-        virtual ~Expr() = default;
+        virtual ~Expr() = 0;
     };
 
-    class Binary : public Expr 
+    class Binary : virtual public Expr 
     {
         const Expr &left;
         const Tok::Token &op;
@@ -29,7 +29,7 @@ namespace Exp{
 
     };
 
-    class Unary : public Expr
+    class Unary : virtual public Expr
     {
         const Tok::Token &op;
         const Expr &expression;
@@ -45,7 +45,7 @@ namespace Exp{
         }
     };
 
-    class Literal : public Expr
+    class Literal : virtual public Expr
     {
         const std::any &literal;
 
@@ -60,7 +60,7 @@ namespace Exp{
 
     };
 
-    class Grouping : public Expr
+    class Grouping : virtual public Expr
     {
         const Expr &expression;
 

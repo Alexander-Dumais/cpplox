@@ -91,15 +91,15 @@ AllTokens fillTokenVectors()
  * 
  * @param describe Describe the test
  * @param tokens The Token vector
- * @param condition a lambda conditional for matching known tokens
+ * @param isTokenInTokenvals a lambda conditional for matching known tokens
  */
-void testVecOfTokens(std::string describe, std::vector<Token> &tokens, std::function<bool(Token)> condition)
+void testVecOfTokens(std::string describe, std::vector<Token> &tokens, std::function<bool(Token)> isTokenInTokenvals)
 {
     std::cout << "\n" << describe << "\n\n";
     std::cout << "lexeme" << "\t-    " << "TYPE" << "\n\n";
     for (auto token : tokens)
     {
-        if (condition(token))
+        if (isTokenInTokenvals(token))
             std::cout   << "'" << std::any_cast<std::string>(token.lexeme) << "'" 
                         << "\t-    " << token.type << "\n";    
         else
@@ -119,11 +119,12 @@ int main()
     // Initialize vectors of Tokens to test
     AllTokens tokenGroups = fillTokenVectors();
 
-    auto typical_lambda  = [](Token t) {return std::find(tokenVals.begin(), tokenVals.end(), toUpper(t.lexeme)) != tokenVals.end();};
-    auto lit_lambda      = [](Token t) {return std::find(tokenVals.begin(), tokenVals.end(), toUpper(toString(t.type))) != tokenVals.end();};
+    //Lambda that works for finding a given token in tokenVals. Comparing literals is done slightly differently.
+    auto tokenFindingLambda = [](Token t) {return std::find(tokenVals.begin(), tokenVals.end(), toUpper(t.lexeme)) != tokenVals.end();};
+    auto lit_lambda         = [](Token t) {return std::find(tokenVals.begin(), tokenVals.end(), toUpper(toString(t.type))) != tokenVals.end();};
 
-    testVecOfTokens ("Testing Single Character Tokens: ", *tokenGroups.operators, typical_lambda);
-    testVecOfTokens ("Testing 1-2 Characters Operators: ", *tokenGroups.operators2, typical_lambda);
+    testVecOfTokens ("Testing Single Character Tokens: ", *tokenGroups.operators, tokenFindingLambda);
+    testVecOfTokens ("Testing 1-2 Characters Operators: ", *tokenGroups.operators2, tokenFindingLambda);
     testVecOfTokens ("Testing Literals: ", *tokenGroups.literals, lit_lambda);
-    testVecOfTokens ("Testing Keywords: ", *tokenGroups.keywords, typical_lambda);
+    testVecOfTokens ("Testing Keywords: ", *tokenGroups.keywords, tokenFindingLambda);
 }

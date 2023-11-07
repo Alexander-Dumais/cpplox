@@ -47,7 +47,8 @@ void defineType(std::ofstream& writer, std::string baseName,
 
         //close class definition
         writer << TAB << "};" << NL;
-    }
+    
+    } //End scope for TAB and NL definitions
 }
 
 /**
@@ -76,7 +77,7 @@ void defineAst(std::string outDir, std::string baseName, std::vector<std::string
                 ;
 
     //TODO: Define base Expr virtual function
-
+    //"Expr     |  | const Expr& left, const Tok::Token& oper, const Expr& right",
 
     //For every class, generate the constructor
     for (std::string type : types)
