@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 
 #include "stringUtils.h"
@@ -13,42 +14,35 @@
  * @param parentClass the parent class, if any
  * @param fields the fields of the class
  */
-void defineType(std::ofstream& writer, std::string baseName,
-                std::string className, std::string parentClass,
-                std::string fields)
+void defineType(std::ofstream& writer, std::string className, 
+    std::string parentClass, std::string fields)
 {
     int len = parentClass.length();
-    //scope for TAB and NL
-    {
-        #define TAB "\t"
-        #define NL "\n"
+    std::stringstream ss(fields);
+    std::string sub;
+    #define TAB "\t"
+    #define NL "\n"
 
-        //Class header
-        writer  << TAB << "struct " << className
-                << TAB << (len > 0 ? " : " : "")
-                << (len > 0 ? parentClass : "") << NL
-                << TAB << "{" << NL
-                ;
+    //Class header
+    writer  << TAB "struct " << className
+            << (len > 0 ? " : " + parentClass + NL : "")
+            << TAB "{" NL
+            ;
 
-        //fields
-        //writer  << TAB << TAB <<
+    while(std::getline(ss, sub, ',')) {
+        trim(sub);
+        writer << TAB TAB << sub << ";" NL;
+    }
+    writer << NL;
 
-        //constructors and destructors
-        writer  << TAB << TAB << className << "() = delete;" << NL
-                ;
-        writer  << TAB << TAB << className << "(" << fields << ")" << NL
-                << TAB << TAB << "{};" << NL
-                ;
-        writer  << TAB << TAB << "~" << className << "()" << NL
-                << TAB << TAB << "{" << NL
-                << TAB << TAB << TAB << "delete& left; delete& oper; delete& right;" << NL
-                << TAB << TAB << "};" << NL << NL
-                ;
+    //constructors and destructors
+    writer  << TAB TAB << className << "() = delete;" NL
+            ;
+    writer  << TAB TAB << className << "(" << fields << ");" NL
+            ;
 
-        //close class definition
-        writer << TAB << "};" << NL;
-    
-    } //End scope for TAB and NL definitions
+    //close class definition
+    writer << TAB "};" NL NL;
 }
 
 /**
@@ -60,7 +54,10 @@ void defineType(std::ofstream& writer, std::string baseName,
  */
 void defineAst(std::string outDir, std::string baseName, std::vector<std::string> types)
 {
-    //Lowercase basename to fit my c++ file naming standard
+    #define TAB "\t"
+    #define NL "\n"
+
+   //Lowercase basename to fit my c++ file naming standard
     toLower(baseName);
 
     //Open fileWriter with path 
@@ -69,15 +66,13 @@ void defineAst(std::string outDir, std::string baseName, std::vector<std::string
 
     //Build the file expr.h
     //includes and namespace
-    *fileWriter << "//GENERATED FILE: This is a file generated using ./tool/getAST.cpp\n"
-                << "#pragma once\n"
-                << "#include \"token.h\"\n\n"
+    *fileWriter << "//GENERATED FILE: generated using getAST.cpp" NL
+                << "#pragma once" NL
+                << "#include \"token.h\"" NL NL
 
-                << "namespace Exp{\n"
+                << "namespace Exp{" NL
+                << TAB "struct Expr {};" NL NL
                 ;
-
-    //TODO: Define base Expr virtual function
-    //"Expr     |  | const Expr& left, const Tok::Token& oper, const Expr& right",
 
     //For every class, generate the constructor
     for (std::string type : types)
@@ -92,12 +87,7 @@ void defineAst(std::string outDir, std::string baseName, std::vector<std::string
         trim(parentClass);
         trim(fields);
 
-        //TODO: remove debugging code
-        // std::cout << "###Classname- " << className << "\n";
-        // std::cout << "###parentClass- " << parentClass << "\n";
-        // std::cout << "###Fields- " << fields << "\n\n";
-        
-        defineType(*fileWriter, baseName, className, parentClass, fields);
+        defineType(*fileWriter, className, parentClass, fields);
     }
 
     //close namespace scope
@@ -109,11 +99,14 @@ void defineAst(std::string outDir, std::string baseName, std::vector<std::string
 }
 
 /**
- * @brief Entry point of the small script that will generate our Expr.cpp file
+ * @brief Entry point of the small script that will generate our Expr.h file.
+ *        Expr.h will contian the class definitions required to build a full 
+ *        abstract syntax tree. Generting this header is easier than modifying
+ *        the definitions every time we make changes to the language.
  */
 int main(int argc, char const *argv[])
 {
-    if (argc != 2) //filename is always first argument of a c++ file
+    if (argc != 2) 
     {
         std::cout << "Usage: generate_ast <output directory>\n";
         std::exit(1);
@@ -122,11 +115,11 @@ int main(int argc, char const *argv[])
 
     defineAst(outDir, "Expr", std::vector<std::string>
     {
-        "Expr     |  | const Expr& left, const Tok::Token& oper, const Expr& right",
-        "Binary   | public Expr | const Expr& left, const Tok::Token& oper, const Expr& right",
-        "Unary    | public Expr | const Tok::Token& oper, const Expr& right",
-        "Literal  | public Expr | const Literal& value",
-        "Grouping | public Expr | const Expr& expression",
+        "Binary   | public Expr | const Expr left, const Tok::Token oper,"
+        "const Expr right",
+        "Unary    | public Expr | const Tok::Token oper, const Expr right",
+        "Literal  | public Expr | const std::any value",
+        "Grouping | public Expr | const Expr expression",
     });
 
     return 0;

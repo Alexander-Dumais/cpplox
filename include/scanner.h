@@ -10,7 +10,7 @@
 namespace Scan
 {
     /**
-     * @brief The keywords literals of the Lox language, and their associated TypenTypes.
+     * @brief The keywords literals of the Lox language, and their associated TokenTypes.
      *
      */
     static const std::map<std::string, Tok::TokenType> keywords = {
