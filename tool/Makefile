@@ -6,12 +6,12 @@ CFLAGS=-Wall -Wextra -pedantic -std=c++17
 ROOTSRC=../src
 INC=../include 
 
-all: genAST
+all: genExpr
 
 clean:
-	rm -f *.o genAST expr.h
+	rm -f *.o genExpr expr.h
 
-genAST: genAST.cpp stringUtils.h
-	$(CC) $(CFLAGS) -I. genAST.cpp -o genAST \
+genExpr: genExpr.cpp stringUtils.h
+	$(CC) $(CFLAGS) -I. genExpr.cpp -o genExpr \
 	&& \
-	./genAST .
+	./genExpr .

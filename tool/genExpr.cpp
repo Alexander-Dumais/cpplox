@@ -85,7 +85,7 @@ void defineExprHeader(std::string outDir, std::string baseName,
 
     /* Build the file expr.h */
     /* includes and namespace */
-    *fileWriter << "/* GENERATED FILE: generated using getAST.cpp */" NL
+    *fileWriter << "/* GENERATED FILE: generated using genExpr.cpp */" NL
                 << "#pragma once" NL
                 << "#include \"token.h\"" NL NL
 
