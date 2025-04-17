@@ -1,3 +1,8 @@
+/* Alexander Dumais | 2023-2025
+ * ltrim and rtrim taken from:
+ * https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
+ */
+
 #pragma once
 #include <string>
 #include <algorithm>
@@ -14,9 +19,7 @@ static inline void toLower(std::string &s)
         [](unsigned char c){ return std::tolower(c); });
 }
 
-//ltrim and rtrim taken from:
-//https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
-// trim from start (in place)
+/* trim from start (in place) */
 static inline void ltrim(std::string &s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
@@ -24,7 +27,7 @@ static inline void ltrim(std::string &s)
     }));
 }
 
-// trim from end (in place)
+/* trim from end (in place) */
 static inline void rtrim(std::string &s)
 {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
@@ -32,6 +35,7 @@ static inline void rtrim(std::string &s)
     }).base(), s.end());
 }
 
+/* trim both right and left */
 static inline void trim(std::string & s)
 {
     ltrim(s);
