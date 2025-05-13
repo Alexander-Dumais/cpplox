@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "lox_error.h"
 
-namespace Scan
+namespace Lox
 {
 
     /**
@@ -18,14 +18,14 @@ namespace Scan
     /**
      * @brief Scans `source` and adds them to `tokens`
      *
-     * @return std::vector<Tok::Token> The `tokens` that have been successfully scanned.
+     * @return std::vector<Lox::Token> The `tokens` that have been successfully scanned.
      *
      * TODO: Ideally for error handling, this would work like a PEG (Parsing Expression Grammar). It could
      *       Track all the errors, but then contnue to parse the source anyway. This allows the user to
      *       receive all of the parsing errors in bulk, rather than one at a time. This is geat for debugging.
      *       See http://blog.jordan.matelsky.com/365papers/321/ for details on syntax error recovery.
      */
-    std::vector<Tok::Token> Scanner::scanTokens()
+    std::vector<Lox::Token> Scanner::scanTokens()
     {
         while (!isAtEnd())
         {
@@ -33,7 +33,7 @@ namespace Scan
             scanToken();
         }
 
-        tokens.emplace_back(Tok::TokenType::EOF_LOX, "EOF", nullptr, line);
+        tokens.emplace_back(Lox::TokenType::EOF_LOX, "EOF", nullptr, line);
         return tokens;
     }
 
@@ -46,7 +46,7 @@ namespace Scan
         char c = advance();
         try
         {
-            using namespace Tok;
+            using namespace Lox;
             switch (c)
             {
                 //Single character tokens
@@ -135,7 +135,7 @@ namespace Scan
 
         //trim surrounding quotes
         const std::string value = source.substr(start + 1, current - start - 2);
-        addToken(Tok::TokenType::STRING, value);
+        addToken(Lox::TokenType::STRING, value);
     }
 
     /**
@@ -155,7 +155,7 @@ namespace Scan
         }
 
         const double value = std::stod( source.substr(start, current - start) );
-        addToken(Tok::TokenType::NUMBER, value);
+        addToken(Lox::TokenType::NUMBER, value);
     }
 
     void Scanner::identifier()
@@ -164,17 +164,17 @@ namespace Scan
             advance();
 
         const std::string value = source.substr(start, current - start);
-        Tok::TokenType typ;
+        Lox::TokenType typ;
 
-        if (Scan::keywords.find(value) != Scan::keywords.end())
+        if (Lox::keywords.find(value) != Lox::keywords.end())
         {
             //value in keywords, so it's a specific keyword
-            typ = Scan::keywords.at(value); 
+            typ = Lox::keywords.at(value); 
         }
         else 
         {
             //value not in keywords, so it's an IDENTIFIER
-            typ = Tok::TokenType::IDENTIFIER;
+            typ = Lox::TokenType::IDENTIFIER;
         }
         addToken(typ);
     }
@@ -279,7 +279,7 @@ namespace Scan
      *
      * @param type the Token type
      */
-    void Scanner::addToken(Tok::TokenType type)
+    void Scanner::addToken(Lox::TokenType type)
     {
         addToken(type, nullptr);
     }
@@ -290,7 +290,7 @@ namespace Scan
      * @param type The TokenType
      * @param literal The literal of the `type`
      */
-    void Scanner::addToken(Tok::TokenType type, std::any const &literal)
+    void Scanner::addToken(Lox::TokenType type, std::any const &literal)
     {
         std::string text = source.substr(start, current - start);
         tokens.emplace_back(type, text, literal, line);

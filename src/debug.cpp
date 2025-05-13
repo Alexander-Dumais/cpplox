@@ -18,7 +18,7 @@ void DEBUG(string message, string s)
     }
 }
 
-void DEBUG(string message, Scan::Scanner &s)
+void DEBUG(string message, Lox::Scanner &s)
 {
     if (DEBUG_ON)
     {

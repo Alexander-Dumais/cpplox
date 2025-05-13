@@ -140,8 +140,8 @@ int main(int argc, char const *argv[])
     defineExprHeader(outDir, "Expr", std::vector<std::string>
     {
         "Binary   | public Expr | "
-          "const Expr left, const Tok::Token oper, const Expr right",
-        "Unary    | public Expr | const Tok::Token oper, const Expr right",
+          "const Expr left, const Lox::Token oper, const Expr right",
+        "Unary    | public Expr | const Lox::Token oper, const Expr right",
         "Literal  | public Expr | const std::any value",
         "Grouping | public Expr | const Expr expression",
     });

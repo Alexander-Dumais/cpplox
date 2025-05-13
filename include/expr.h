@@ -13,12 +13,12 @@ namespace Exp{
     class Binary : virtual public Expr 
     {
         const Expr &left;
-        const Tok::Token &op;
+        const Lox::Token &op;
         const Expr &right;
 
     public:
         Binary() = delete;
-        Binary(const Expr &left, const Tok::Token &op, const Expr &right) 
+        Binary(const Expr &left, const Lox::Token &op, const Expr &right) 
             : left(left), op(op), right(right) {}
         ~Binary()
         {
@@ -31,12 +31,12 @@ namespace Exp{
 
     class Unary : virtual public Expr
     {
-        const Tok::Token &op;
+        const Lox::Token &op;
         const Expr &expression;
 
     public:
         Unary() = delete;
-        Unary(const Tok::Token &op, const Expr &expression)
+        Unary(const Lox::Token &op, const Expr &expression)
             : op(op), expression(expression) {}
         ~Unary()
         {

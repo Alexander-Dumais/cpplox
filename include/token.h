@@ -7,14 +7,14 @@
 
 #include "tokentype.h"
 
-namespace Tok
+namespace Lox
 {
 
     /**
      * @brief The literal values of the tokens in the Lox Language.
      *
      *          It's likely better to do away with the separated tokenVals and TokenType definitions, and form
-     *          a map like I do with Scan::keywords.
+     *          a map like I do with Lox::keywords.
      *
      */
     static const std::vector<std::string> tokenVals = {

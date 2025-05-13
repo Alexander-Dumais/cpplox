@@ -7,29 +7,29 @@
 
 #include "token.h"
 
-namespace Scan
+namespace Lox
 {
     /**
      * @brief The keywords literals of the Lox language, and their associated TokenTypes.
      *
      */
-    static const std::map<std::string, Tok::TokenType> keywords = {
-        {"and",     Tok::TokenType::AND},
-        {"class",   Tok::TokenType::CLASS},
-        {"else",    Tok::TokenType::ELSE},
-        {"false",   Tok::TokenType::FALSE},
-        {"for",     Tok::TokenType::FOR},
-        {"fun",     Tok::TokenType::FUN},
-        {"if",      Tok::TokenType::IF},
-        {"nil",     Tok::TokenType::NIL},
-        {"or",      Tok::TokenType::OR},
-        {"print",   Tok::TokenType::PRINT},
-        {"return",  Tok::TokenType::RETURN},
-        {"super",   Tok::TokenType::SUPER},
-        {"this",    Tok::TokenType::THIS},
-        {"true",    Tok::TokenType::TRUE},
-        {"var",     Tok::TokenType::VAR},
-        {"while",   Tok::TokenType::WHILE}};
+    static const std::map<std::string, Lox::TokenType> keywords = {
+        {"and",     Lox::TokenType::AND},
+        {"class",   Lox::TokenType::CLASS},
+        {"else",    Lox::TokenType::ELSE},
+        {"false",   Lox::TokenType::FALSE},
+        {"for",     Lox::TokenType::FOR},
+        {"fun",     Lox::TokenType::FUN},
+        {"if",      Lox::TokenType::IF},
+        {"nil",     Lox::TokenType::NIL},
+        {"or",      Lox::TokenType::OR},
+        {"print",   Lox::TokenType::PRINT},
+        {"return",  Lox::TokenType::RETURN},
+        {"super",   Lox::TokenType::SUPER},
+        {"this",    Lox::TokenType::THIS},
+        {"true",    Lox::TokenType::TRUE},
+        {"var",     Lox::TokenType::VAR},
+        {"while",   Lox::TokenType::WHILE}};
 
     /**
      * @brief An Exception class for handling Exceptions during parsing
@@ -61,14 +61,14 @@ namespace Scan
     };
 
     /**
-     * @brief The lexical scanner of Lox will produce a vector of Tok::Token.
+     * @brief The lexical scanner of Lox will produce a vector of Lox::Token.
      *
      */
     class Scanner
     {
     public:
         const std::string source{};
-        std::vector<Tok::Token> tokens{};
+        std::vector<Lox::Token> tokens{};
 
     private:
         int start = 0;
@@ -78,7 +78,7 @@ namespace Scan
     public:
         Scanner() = delete;
         Scanner(std::string source);
-        std::vector<Tok::Token> scanTokens();
+        std::vector<Lox::Token> scanTokens();
         friend std::ostream &operator<<(std::ostream &os, Scanner &scanner)
         {
             //using iterator to avoid trailing comma
@@ -104,10 +104,10 @@ namespace Scan
         bool isDigit(char c);
         bool isAtEnd();
         char advance();
-        void addToken(Tok::TokenType type);
-        void addToken(Tok::TokenType type, std::any const &literal);
+        void addToken(Lox::TokenType type);
+        void addToken(Lox::TokenType type, std::any const &literal);
 
         // template<typename T>  //Example of possible templated solution for accepting multiple literals, instead of void*
-        // void addToken(Tok::TokenType type, T const* literal);
+        // void addToken(Lox::TokenType type, T const* literal);
     };
 }

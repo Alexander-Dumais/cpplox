@@ -18,8 +18,8 @@ using namespace std;
 void run(string source)
 {
     DEBUG("In run()", "");
-    Scan::Scanner scanner(source);
-    std::vector<Tok::Token> tokens = scanner.scanTokens();
+    Lox::Scanner scanner(source);
+    std::vector<Lox::Token> tokens = scanner.scanTokens();
 
     // For now just print the tokens
     DEBUG("Scanned Tokens: ", scanner);

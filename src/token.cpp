@@ -3,7 +3,7 @@
 
 #include "token.h"
 
-namespace Tok
+namespace Lox
 {
 
     Token::Token(const TokenType type, const std::string lexeme, const std::any literal, const int line)
@@ -18,7 +18,7 @@ namespace Tok
 
     std::string Token::toStringType() const
     {
-        return Tok::toString(type);
+        return Lox::toString(type);
     }
 
     std::string Token::toStringLit() const 

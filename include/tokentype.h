@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Tok 
+namespace Lox 
 {
     /**
      * @brief The enumerated TokenTypes for the Lox Language.

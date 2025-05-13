@@ -15,4 +15,4 @@
 
 void println(std::string s);
 void DEBUG(std:: string m, std::string s);
-void DEBUG(std:: string m, Scan::Scanner &s);
+void DEBUG(std:: string m, Lox::Scanner &s);
