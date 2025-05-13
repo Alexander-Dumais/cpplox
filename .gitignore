@@ -32,7 +32,9 @@
 *.app
 
 # Manual edits
+cpplox
 bin
+build
 test/bin
 test/obj
 tool/tmp

@@ -54,7 +54,7 @@ namespace Scan
             return this->error;
         }
 
-        const int where() const noexcept
+        int where() const noexcept
         {
             return this->line;
         }

@@ -46,7 +46,7 @@ build_lox() {
 
     #echo on inside subshell
     (set -x;
-    g++ -std=c++2a -Wall -o bin/cpplox -I./include/ src/*.cpp)
+    make cpplox)
     
     printf "${CYAN}Finished Building lox${NC}\n\n"
 }
@@ -56,7 +56,7 @@ run_lox() {
 
     #echo on inside subshell
     (set -x;
-    ./bin/cpplox $FILE)
+    ./cpplox $FILE)
 
     printf "\n"
 }
